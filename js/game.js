@@ -60,3 +60,41 @@ function shoot() {
         }
     }, 50);
 }
+document.getElementById("leftBtn").addEventListener("click", () => movePlayer("ArrowLeft"));
+document.getElementById("rightBtn").addEventListener("click", () => movePlayer("ArrowRight"));
+document.getElementById("jumpBtn").addEventListener("click", () => movePlayer("ArrowUp"));
+document.getElementById("shootBtn").addEventListener("click", shoot);
+
+function movePlayer(key) {
+    switch (key) {
+        case "ArrowUp":
+            if (!isJumping) {
+                isJumping = true;
+                player.style.bottom = "50px";
+                setTimeout(() => {
+                    player.style.bottom = "10px";
+                    isJumping = false;
+                }, 300);
+            }
+            break;
+        case "ArrowLeft":
+            if (posX > 0) {
+                posX -= step;
+            } else if (currentBackground > 0) {
+                currentBackground--;
+                gameContainer.style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
+                posX = 380;
+            }
+            break;
+        case "ArrowRight":
+            if (posX < 380) {
+                posX += step;
+            } else if (currentBackground < backgrounds.length - 1) {
+                currentBackground++;
+                gameContainer.style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
+                posX = 10;
+            }
+            break;
+    }
+    player.style.left = posX + "px";
+}
